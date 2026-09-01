@@ -126,10 +126,12 @@ const tarun = {
 ### 🐍 Snake Game — Eat My Contribution Graph!
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Tarun-Gajjalwar/Tarun-Gajjalwar/output/github-contribution-grid-snake-dark.svg" alt="Snake Animation" width="90%"/>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Tarun-Gajjalwar/Tarun-Gajjalwar/output/github-contribution-grid-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Tarun-Gajjalwar/Tarun-Gajjalwar/output/github-contribution-grid-snake.svg" />
+    <img alt="Snake Animation" src="https://raw.githubusercontent.com/Tarun-Gajjalwar/Tarun-Gajjalwar/output/github-contribution-grid-snake-dark.svg" width="90%"/>
+  </picture>
 </div>
-
-> 💡 *Set up the GitHub Actions workflow below to activate this snake!*
 
 ---
 
@@ -348,27 +350,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
+    permissions:
+      contents: write
+
     steps:
-      - name: generate github-contribution-grid-snake.svg
+      - uses: actions/checkout@v4
+
+      - name: Generate snake SVG
         uses: Platane/snk/svg-only@v3
         with:
-          github_user_name: ${{ github.repository_owner }}
+          github_user_name: Tarun-Gajjalwar
           outputs: |
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - name: push to output branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+      - name: Push snake SVG to output branch
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          target_branch: output
-          build_dir: dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: output
+          force_orphan: true
 ```
 
-**Step 4:** Go to **Settings → Actions → General → Workflow permissions** → set to **Read and write**
-
-**Step 5:** Run the workflow manually once — the snake will appear! 🐍
+**Step 2:** Run the workflow manually once — the snake will appear! 🐍🐍
 
 </details>
 
